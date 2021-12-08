@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:manager/view/contacts.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
+
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  int selectedIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     showAlertDialog(BuildContext context) {
@@ -57,7 +66,27 @@ class Home extends StatelessWidget {
               icon: const Icon(Icons.settings))
         ],
       ),
-      drawer: const Sidenav(),
+      drawer: Sidenav(
+        selectedIndex: selectedIndex,
+        setIndex: (int index) {
+          setState(() {
+            selectedIndex = index;
+          });
+        },
+      ),
+      body: Builder(builder: (context) {
+        if (selectedIndex == 0) {
+          return const Center(
+            child: Text("1"),
+          );
+        } else if (selectedIndex == 3) {
+          return const Contacts();
+        } else {
+          return const Center(
+            child: Text("data"),
+          );
+        }
+      }),
     );
   }
 }
@@ -124,7 +153,11 @@ class CustomSearchDelegate extends SearchDelegate {
 }
 
 class Sidenav extends StatelessWidget {
-  const Sidenav({Key? key}) : super(key: key);
+  final int selectedIndex;
+  final Function setIndex;
+
+  const Sidenav({Key? key, required this.setIndex, required this.selectedIndex})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -143,57 +176,93 @@ class Sidenav extends StatelessWidget {
           Divider(
             color: Colors.grey.shade400,
           ),
-          ListTile(
-            title: const Text("Home"),
-            leading: IconButton(
-                onPressed: () {
-                  print("Pressed home");
-                },
-                icon: const Icon(
-                  Icons.home,
-                  color: Colors.black,
-                )),
+          Container(
+            color: selectedIndex == 0
+                ? Theme.of(context).primaryColor.withOpacity(0.125)
+                : Colors.transparent,
+            child: ListTile(
+              title: const Text("Home"),
+              selected: selectedIndex == 0,
+              leading: IconButton(
+                  onPressed: () {
+                    setIndex(0);
+                    Navigator.of(context).pop();
+                  },
+                  icon: Icon(
+                    Icons.home,
+                    color: selectedIndex == 0
+                        ? Theme.of(context).primaryColor
+                        : Colors.black,
+                  )),
+            ),
           ),
           Divider(
             color: Colors.grey.shade400,
           ),
-          ListTile(
-            title: const Text("To Do"),
-            leading: IconButton(
-                onPressed: () {
-                  print("Pressed Todo");
-                },
-                icon: const Icon(
-                  Icons.list_alt,
-                  color: Colors.black,
-                )),
-            // TODO: count incomplete todos
-            trailing: const Text(
-              "2",
-              style: TextStyle(fontWeight: FontWeight.w500),
+          Container(
+            color: selectedIndex == 1
+                ? Theme.of(context).primaryColor.withOpacity(0.125)
+                : Colors.transparent,
+            child: ListTile(
+              title: const Text("To Do"),
+              selected: selectedIndex == 1,
+              leading: IconButton(
+                  onPressed: () {
+                    setIndex(1);
+                    Navigator.of(context).pop();
+                  },
+                  icon: Icon(
+                    Icons.list_alt,
+                    color: selectedIndex == 1
+                        ? Theme.of(context).primaryColor
+                        : Colors.black,
+                  )),
+              // TODO: count incomplete todos
+              trailing: const Text(
+                "2",
+                style: TextStyle(fontWeight: FontWeight.w500),
+              ),
             ),
           ),
-          ListTile(
-            title: const Text("Calendar"),
-            leading: IconButton(
-                onPressed: () {
-                  print("Pressed Calendar");
-                },
-                icon: const Icon(
-                  Icons.today,
-                  color: Colors.black,
-                )),
+          Container(
+            color: selectedIndex == 2
+                ? Theme.of(context).primaryColor.withOpacity(0.125)
+                : Colors.transparent,
+            child: ListTile(
+              title: const Text("Calendar"),
+              selected: selectedIndex == 2,
+              leading: IconButton(
+                  onPressed: () {
+                    setIndex(2);
+                    Navigator.of(context).pop();
+                  },
+                  icon: Icon(
+                    Icons.today,
+                    color: selectedIndex == 2
+                        ? Theme.of(context).primaryColor
+                        : Colors.black,
+                  )),
+            ),
           ),
-          ListTile(
-            title: const Text("Contacts"),
-            leading: IconButton(
-                onPressed: () {
-                  print("Pressed contacts");
-                },
-                icon: const Icon(
-                  Icons.contacts,
-                  color: Colors.black,
-                )),
+          Container(
+            color: selectedIndex == 3
+                ? Theme.of(context).primaryColor.withOpacity(0.125)
+                : Colors.transparent,
+            child: ListTile(
+              title: const Text("Contacts"),
+              selected: selectedIndex == 3,
+              leading: IconButton(
+                  onPressed: () {
+                    setIndex(3);
+                    Navigator.of(context).pop();
+                  },
+                  icon: Icon(
+                    Icons.contacts,
+                    color: selectedIndex == 3
+                        ? Theme.of(context).primaryColor
+                        : Colors.black,
+                  )),
+            ),
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),
@@ -205,15 +274,24 @@ class Sidenav extends StatelessWidget {
                   letterSpacing: 1),
             ),
           ),
-          ListTile(
-            title: const Text("Settings"),
-            leading: IconButton(
-              onPressed: () {
-                print("Pressed Settings");
-              },
-              icon: const Icon(
-                Icons.settings,
-                color: Colors.black,
+          Container(
+            color: selectedIndex == 4
+                ? Theme.of(context).primaryColor.withOpacity(0.125)
+                : Colors.transparent,
+            child: ListTile(
+              title: const Text("Settings"),
+              selected: selectedIndex == 4,
+              leading: IconButton(
+                onPressed: () {
+                  setIndex(4);
+                  Navigator.of(context).pop();
+                },
+                icon: Icon(
+                  Icons.settings,
+                  color: selectedIndex == 4
+                      ? Theme.of(context).primaryColor
+                      : Colors.black,
+                ),
               ),
             ),
           )
