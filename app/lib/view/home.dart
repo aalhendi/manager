@@ -31,7 +31,7 @@ class _HomeState extends State<Home> {
         "icon": Icons.list_alt,
         "body": const Todo(),
         // TODO: Count todos and feed here
-        "trailingText": "2"
+        "trailingText": "2",
       },
       {"name": "Calendar", "icon": Icons.today, "body": const Calendar()},
       {"name": "Contacts", "icon": Icons.contacts, "body": const Contacts()},
