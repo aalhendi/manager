@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:manager/controller/todo_notifier.dart';
 import 'package:manager/widgets/todo/todo_card.dart';
-import 'package:manager/model/todo_item.dart';
+import 'package:provider/provider.dart';
 
 class TodoList extends StatelessWidget {
-  final List<TodoItem> todoItems;
-  final Function(int) toggleCompleted;
-
-  const TodoList(
-      {Key? key, required this.todoItems, required this.toggleCompleted})
-      : super(key: key);
+  const TodoList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,14 +13,14 @@ class TodoList extends StatelessWidget {
       child: ListView.builder(
         itemBuilder: (ctx, idx) {
           return TodoCard(
-            id: todoItems[idx].id.toString(),
-            title: todoItems[idx].title,
-            isCompleted: todoItems[idx].isCompleted,
+            id: context.watch<TodoNotifier>().todoList[idx].id.toString(),
+            title: context.watch<TodoNotifier>().todoList[idx].title,
+            isCompleted:
+                context.watch<TodoNotifier>().todoList[idx].isCompleted,
             index: idx,
-            toggleCompleted: toggleCompleted,
           );
         },
-        itemCount: todoItems.length,
+        itemCount: context.watch<TodoNotifier>().todoList.length,
       ),
     );
   }

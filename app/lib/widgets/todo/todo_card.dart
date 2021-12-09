@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:manager/controller/todo_notifier.dart';
+import 'package:provider/provider.dart';
 
 class TodoCard extends StatelessWidget {
   final String id;
   final String title;
   final bool isCompleted;
   final int index;
-  final Function(int) toggleCompleted;
 
-  const TodoCard(
-      {Key? key,
-      required this.id,
-      required this.title,
-      required this.isCompleted,
-      required this.index,
-      required this.toggleCompleted})
-      : super(key: key);
+  const TodoCard({
+    Key? key,
+    required this.id,
+    required this.title,
+    required this.isCompleted,
+    required this.index,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () {
-          toggleCompleted(index);
+          context.read<TodoNotifier>().toggleCompleted(index);
         },
         child: FractionallySizedBox(
             widthFactor: 0.9,

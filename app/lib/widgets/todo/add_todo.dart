@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:manager/controller/todo_notifier.dart';
+import 'package:manager/model/todo_item.dart';
+import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
 class AddTodo extends StatefulWidget {
-  final Function(String) addTodo;
-
-  const AddTodo({Key? key, required this.addTodo}) : super(key: key);
+  const AddTodo({
+    Key? key,
+  }) : super(key: key);
 
   @override
   _AddTodoState createState() => _AddTodoState();
@@ -27,7 +31,10 @@ class _AddTodoState extends State<AddTodo> {
             ),
             ElevatedButton(
                 onPressed: () {
-                  widget.addTodo(_todoController.text);
+                  context.read<TodoNotifier>().addTodo(TodoItem(
+                      id: const Uuid(),
+                      title: _todoController.text,
+                      isCompleted: false));
                   Navigator.of(context).pop();
                 },
                 child: const Text(

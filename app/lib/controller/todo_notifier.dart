@@ -10,7 +10,31 @@ class TodoNotifier extends ChangeNotifier {
 
   void fetchTodos() async {
     _todoList = await _todoService.fetchTodos();
-    print(_todoList.length);
     notifyListeners();
+  }
+
+  addTodo(TodoItem todo) {
+    _todoList.add(todo);
+    notifyListeners();
+  }
+
+  deleteTodo(int index) {
+    _todoList.removeWhere((_todo) => _todo.id == todoList[index].id);
+    notifyListeners();
+  }
+
+  toggleCompleted(int index) {
+    todoList[index].isCompleted = !todoList[index].isCompleted;
+    notifyListeners();
+  }
+
+  int countCompleted() {
+    var count = 0;
+    for (var task in todoList) {
+      if (task.isCompleted) {
+        count++;
+      }
+    }
+    return count;
   }
 }

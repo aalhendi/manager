@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:manager/controller/todo_notifier.dart';
 import 'package:manager/utils/custom_search_delegate.dart';
 import 'package:manager/view/calendar.dart';
 import 'package:manager/view/contacts.dart';
 import 'package:manager/view/settings.dart';
 import 'package:manager/view/todo_page.dart';
 import 'package:manager/widgets/sidenav.dart';
+import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -30,8 +32,8 @@ class _HomeState extends State<Home> {
         "name": "To Do",
         "icon": Icons.list_alt,
         "body": const TodoPage(),
-        // TODO: Count todos and feed here
-        "trailingText": "2",
+        "trailingText":
+            "${context.watch<TodoNotifier>().todoList.where((e) => e.isCompleted == false).length}",
       },
       {"name": "Calendar", "icon": Icons.today, "body": const Calendar()},
       {"name": "Contacts", "icon": Icons.contacts, "body": const Contacts()},
