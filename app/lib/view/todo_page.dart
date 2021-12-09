@@ -1,23 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:manager/controller/todo_notifier.dart';
 import 'package:manager/widgets/todo/add_todo.dart';
 import 'package:manager/widgets/todo/completion_counter.dart';
-import 'package:manager/widgets/todo/todo_item.dart';
+import 'package:manager/model/todo_item.dart';
 import 'package:manager/widgets/todo/todo_list.dart';
+import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
-class Todo extends StatefulWidget {
-  const Todo({Key? key}) : super(key: key);
+class TodoPage extends StatefulWidget {
+  const TodoPage({Key? key}) : super(key: key);
 
   @override
-  _TodoState createState() => _TodoState();
+  _TodoPageState createState() => _TodoPageState();
 }
 
-class _TodoState extends State<Todo> {
+class _TodoPageState extends State<TodoPage> {
+  @override
+  void initState() {
+    super.initState();
+    SchedulerBinding.instance?.addPostFrameCallback((timeStamp) {
+      Provider.of<TodoNotifier>(context, listen: false).fetchTodos();
+    });
+  }
+
+  //TODO: Remove and begin using new architecture
   final List<TodoItem> todos = [
     TodoItem(id: const Uuid(), title: "Clean Room", isCompleted: false),
     TodoItem(id: const Uuid(), title: "Pet the Cat", isCompleted: false),
     TodoItem(id: const Uuid(), title: "Dance", isCompleted: true)
   ];
+
   void _toggleAddTodoModal(BuildContext context) {
     showModalBottomSheet(
         context: context,
@@ -63,7 +76,7 @@ class _TodoState extends State<Todo> {
             children: <Widget>[
               CompletionCounter(
                 completedCount: _countCompleted(),
-                totalCount: todos.length,
+                totalCount: context.watch<TodoNotifier>().todoList.length,
               ),
               TodoList(todoItems: todos, toggleCompleted: _toggleCompleted)
             ],

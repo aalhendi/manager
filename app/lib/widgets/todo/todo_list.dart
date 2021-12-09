@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:manager/widgets/todo/todo_card.dart';
-import 'package:manager/widgets/todo/todo_item.dart';
+import 'package:manager/model/todo_item.dart';
 
 class TodoList extends StatelessWidget {
   final List<TodoItem> todoItems;

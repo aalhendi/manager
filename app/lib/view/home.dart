@@ -3,7 +3,7 @@ import 'package:manager/utils/custom_search_delegate.dart';
 import 'package:manager/view/calendar.dart';
 import 'package:manager/view/contacts.dart';
 import 'package:manager/view/settings.dart';
-import 'package:manager/view/todo.dart';
+import 'package:manager/view/todo_page.dart';
 import 'package:manager/widgets/sidenav.dart';
 
 class Home extends StatefulWidget {
@@ -29,7 +29,7 @@ class _HomeState extends State<Home> {
       {
         "name": "To Do",
         "icon": Icons.list_alt,
-        "body": const Todo(),
+        "body": const TodoPage(),
         // TODO: Count todos and feed here
         "trailingText": "2",
       },

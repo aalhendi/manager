@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:manager/controller/todo_notifier.dart';
 import 'package:manager/view/home.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MultiProvider(
+    providers: [ChangeNotifierProvider(create: (_) => TodoNotifier())],
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -16,7 +21,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const Home(), 
+      home: const Home(),
     );
   }
 }
