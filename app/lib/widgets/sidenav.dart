@@ -4,56 +4,33 @@ import 'package:manager/widgets/navigation_item.dart';
 class Sidenav extends StatelessWidget {
   final int selectedIndex;
   final Function setIndex;
+  final List pages;
 
-  const Sidenav({Key? key, required this.setIndex, required this.selectedIndex})
+  const Sidenav(
+      {Key? key,
+      required this.setIndex,
+      required this.selectedIndex,
+      required this.pages})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Drawer(
-      child: ListView(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            // TODO: Font selection?
-            child: Text(
-              "Manager",
-              style: TextStyle(
-                  fontSize: 21, color: Theme.of(context).primaryColor),
-            ),
-          ),
-          Divider(
-            color: Colors.grey.shade400,
-          ),
-          NavigationItem(
-              isSelected: selectedIndex == 0,
-              index: 0,
-              setIndex: setIndex,
-              name: "Home",
-              icon: Icons.home),
-          Divider(
-            color: Colors.grey.shade400,
-          ),
-          // TODO: count incomplete todos
-          NavigationItem(
-              isSelected: selectedIndex == 1,
-              index: 1,
-              setIndex: setIndex,
-              name: "To Do",
-              trailingText: "2",
-              icon: Icons.list_alt),
-          NavigationItem(
-              isSelected: selectedIndex == 2,
-              index: 2,
-              setIndex: setIndex,
-              name: "Calendar",
-              icon: Icons.today),
-          NavigationItem(
-              isSelected: selectedIndex == 3,
-              index: 3,
-              setIndex: setIndex,
-              name: "Contacts",
-              icon: Icons.contacts),
+    List<Widget> result = [
+      Padding(
+        padding: const EdgeInsets.all(16.0),
+        // TODO: Font selection?
+        child: Text(
+          "Manager",
+          style: TextStyle(fontSize: 21, color: Theme.of(context).primaryColor),
+        ),
+      ),
+      Divider(
+        color: Colors.grey.shade400,
+      ),
+    ];
+    for (var i = 0; i < pages.length; i++) {
+      if (pages[i]['name'] == 'Settings') {
+        result.add(
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Text(
@@ -64,13 +41,28 @@ class Sidenav extends StatelessWidget {
                   letterSpacing: 1),
             ),
           ),
-          NavigationItem(
-              isSelected: selectedIndex == 4,
-              index: 4,
-              setIndex: setIndex,
-              name: "Settings",
-              icon: Icons.settings),
-        ],
+        );
+      }
+      result.add(NavigationItem(
+        isSelected: selectedIndex == i,
+        index: i,
+        setIndex: setIndex,
+        name: pages[i]["name"],
+        icon: pages[i]["icon"],
+        trailingText: pages[i]['trailingText'],
+      ));
+      if (pages[i]['name'] == 'Home') {
+        result.add(
+          Divider(
+            color: Colors.grey.shade400,
+          ),
+        );
+      }
+    }
+
+    return Drawer(
+      child: ListView(
+        children: result,
       ),
     );
   }

@@ -15,7 +15,7 @@ class NavigationItem extends StatelessWidget {
       required this.setIndex,
       required this.name,
       required this.icon,
-      this.trailingText = ""})
+      this.trailingText})
       : super(key: key);
 
   @override
@@ -30,19 +30,16 @@ class NavigationItem extends StatelessWidget {
             ? Theme.of(context).primaryColor.withOpacity(0.125)
             : Colors.transparent,
         child: ListTile(
-          title: Text(name),
-          selected: isSelected,
-          leading: Icon(
-            icon,
-            color: isSelected ? Theme.of(context).primaryColor : Colors.black,
-          ),
-          trailing: trailingText!.isNotEmpty
-              ? Text(
-                  trailingText!,
-                  style: const TextStyle(fontWeight: FontWeight.w500),
-                )
-              : null,
-        ),
+            title: Text(name),
+            selected: isSelected,
+            leading: Icon(
+              icon,
+              color: isSelected ? Theme.of(context).primaryColor : Colors.black,
+            ),
+            trailing: Text(
+              trailingText ?? "",
+              style: const TextStyle(fontWeight: FontWeight.w500),
+            )),
       ),
     );
   }

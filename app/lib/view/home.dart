@@ -18,9 +18,29 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    List pages = [
+      {
+        "name": "Home",
+        "icon": Icons.home,
+        "body": const Center(
+          child: Text("Home Screeen"),
+        )
+      },
+      {
+        "name": "To Do",
+        "icon": Icons.list_alt,
+        "body": const Todo(),
+        // TODO: Count todos and feed here
+        "trailingText": "2"
+      },
+      {"name": "Calendar", "icon": Icons.today, "body": const Calendar()},
+      {"name": "Contacts", "icon": Icons.contacts, "body": const Contacts()},
+      {"name": "Settings", "icon": Icons.settings, "body": const Settings()},
+    ];
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Home"),
+        title: const Text("Manager"),
         backgroundColor: Colors.black87,
         leading: Image.asset("images/logo.png"),
         actions: [
@@ -35,6 +55,7 @@ class _HomeState extends State<Home> {
         ],
       ),
       drawer: Sidenav(
+        pages: pages,
         selectedIndex: selectedIndex,
         setIndex: (int index) {
           setState(() {
@@ -42,20 +63,9 @@ class _HomeState extends State<Home> {
           });
         },
       ),
-      // TODO: Refactor somehow (?)
       body: Builder(builder: (context) {
-        if (selectedIndex == 0) {
-          return const Center(
-            child: Text("Home Screen"),
-          );
-        } else if (selectedIndex == 1) {
-          return const Todo();
-        } else if (selectedIndex == 2) {
-          return const Calendar();
-        } else if (selectedIndex == 3) {
-          return const Contacts();
-        } else if (selectedIndex == 4) {
-          return const Settings();
+        if (selectedIndex < pages.length) {
+          return pages[selectedIndex]["body"];
         } else {
           return const Center(
             child: Text("Failed to load page."),
