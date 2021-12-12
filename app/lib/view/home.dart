@@ -3,6 +3,7 @@ import 'package:manager/controller/todo_notifier.dart';
 import 'package:manager/utils/custom_search_delegate.dart';
 import 'package:manager/view/calendar.dart';
 import 'package:manager/view/contacts.dart';
+import 'package:manager/view/home_page.dart';
 import 'package:manager/view/settings.dart';
 import 'package:manager/view/todo_page.dart';
 import 'package:manager/widgets/sidenav.dart';
@@ -21,13 +22,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     List pages = [
-      {
-        "name": "Home",
-        "icon": Icons.home,
-        "body": const Center(
-          child: Text("Home Screeen"),
-        )
-      },
+      {"name": "Home", "icon": Icons.home, "body": const HomePage()},
       {
         "name": "To Do",
         "icon": Icons.list_alt,
