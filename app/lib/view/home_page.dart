@@ -19,6 +19,24 @@ class _HomePageState extends State<HomePage> {
       child: Column(
         children: [
           const Text("Home"),
+          ElevatedButton(
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    builder: (context) => SimpleDialog(
+                          title: const Text("Title"),
+                          contentPadding: const EdgeInsets.all(20.0),
+                          children: [
+                            const Text("data"),
+                            TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: const Text("close"))
+                          ],
+                        ));
+              },
+              child: const Text("Open")),
           Text(
             formattedDate,
             style: const TextStyle(fontSize: 40),
