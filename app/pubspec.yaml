@@ -38,6 +38,7 @@ dependencies:
   intl: ^0.17.0
   sqflite:
   path:
+  flutter_slidable: ^1.1.0
 
 dev_dependencies:
   flutter_test:
