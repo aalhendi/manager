@@ -32,7 +32,7 @@ class _AddTodoState extends State<AddTodo> {
             ElevatedButton(
                 onPressed: () {
                   context.read<TodoNotifier>().addTodo(TodoItem(
-                      id: const Uuid(),
+                      id: const Uuid().v4(),
                       title: _todoController.text,
                       isCompleted: false));
                   Navigator.of(context).pop();

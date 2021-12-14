@@ -13,18 +13,21 @@ class TodoNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  addTodo(TodoItem todo) {
+  addTodo(TodoItem todo) async {
     _todoList.add(todo);
+    await _todoService.addTodo(todo);
     notifyListeners();
   }
 
-  deleteTodo(int index) {
+  deleteTodo(int index, String id) async {
     _todoList.removeWhere((_todo) => _todo.id == todoList[index].id);
+    await _todoService.deleteTodo(id);
     notifyListeners();
   }
 
-  toggleCompleted(int index) {
-    todoList[index].isCompleted = !todoList[index].isCompleted;
+  updateTodo(TodoItem newTodo, int index) async {
+    _todoList[index] = newTodo;
+    await _todoService.updateTodo(newTodo);
     notifyListeners();
   }
 
