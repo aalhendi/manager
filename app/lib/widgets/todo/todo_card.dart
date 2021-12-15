@@ -8,15 +8,17 @@ class TodoCard extends StatelessWidget {
   final String id;
   final String title;
   final bool isCompleted;
+  final DateTime createdAt;
   final int index;
 
-  const TodoCard({
-    Key? key,
-    required this.id,
-    required this.title,
-    required this.isCompleted,
-    required this.index,
-  }) : super(key: key);
+  const TodoCard(
+      {Key? key,
+      required this.id,
+      required this.title,
+      required this.isCompleted,
+      required this.index,
+      required this.createdAt})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +68,11 @@ class TodoCard extends StatelessWidget {
           SlidableAction(
             onPressed: (_) {
               context.read<TodoNotifier>().updateTodo(
-                  TodoItem(id: id, title: title, isCompleted: !isCompleted),
+                  TodoItem(
+                      id: id,
+                      title: title,
+                      isCompleted: !isCompleted,
+                      createdAt: createdAt),
                   index);
             },
             backgroundColor: const Color(0xFF21B7CA),

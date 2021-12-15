@@ -17,6 +17,7 @@ class TodoList extends StatelessWidget {
             title: context.watch<TodoNotifier>().todoList[idx].title,
             isCompleted:
                 context.watch<TodoNotifier>().todoList[idx].isCompleted,
+            createdAt: context.watch<TodoNotifier>().todoList[idx].createdAt,
             index: idx,
           );
         },

@@ -34,7 +34,8 @@ class _AddTodoState extends State<AddTodo> {
                   context.read<TodoNotifier>().addTodo(TodoItem(
                       id: const Uuid().v4(),
                       title: _todoController.text,
-                      isCompleted: false));
+                      isCompleted: false,
+                      createdAt: DateTime.now()));
                   Navigator.of(context).pop();
                 },
                 child: const Text(

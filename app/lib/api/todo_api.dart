@@ -32,7 +32,8 @@ class TodoApi {
     CREATE TABLE $tableTodos (
       ${TodoItemFields.id} $idType,
       ${TodoItemFields.title} $textType,
-      ${TodoItemFields.isCompleted} $boolType
+      ${TodoItemFields.isCompleted} $boolType,
+      ${TodoItemFields.createdAt} $textType
     )
       ''');
   }
