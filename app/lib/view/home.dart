@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:manager/controller/todo_notifier.dart';
 import 'package:manager/utils/custom_search_delegate.dart';
-import 'package:manager/view/calendar.dart';
+import 'package:manager/view/calendar_page.dart';
 import 'package:manager/view/contacts.dart';
 import 'package:manager/view/home_page.dart';
 import 'package:manager/view/settings.dart';
@@ -30,7 +30,7 @@ class _HomeState extends State<Home> {
         "trailingText":
             "${context.watch<TodoNotifier>().todoList.where((e) => e.isCompleted == false).length}",
       },
-      {"name": "Calendar", "icon": Icons.today, "body": const Calendar()},
+      {"name": "Calendar", "icon": Icons.today, "body": const CalendarPage()},
       {"name": "Contacts", "icon": Icons.contacts, "body": const Contacts()},
       {"name": "Settings", "icon": Icons.settings, "body": const Settings()},
     ];

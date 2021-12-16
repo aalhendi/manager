@@ -3,6 +3,7 @@ import 'package:manager/controller/todo_notifier.dart';
 import 'package:manager/view/home.dart';
 import 'package:provider/provider.dart';
 
+// TODO: Add dark mode
 void main() {
   runApp(MultiProvider(
     providers: [ChangeNotifierProvider(create: (_) => TodoNotifier())],
