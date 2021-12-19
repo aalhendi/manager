@@ -3,6 +3,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:manager/controller/event_notifier.dart';
 import 'package:manager/model/event_data_source.dart';
 import 'package:manager/view/event_editing_page.dart';
+import 'package:manager/widgets/tasks_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
@@ -30,8 +31,12 @@ class _CalendarPageState extends State<CalendarPage> {
         view: CalendarView.month,
         initialSelectedDate: DateTime.now(),
         onLongPress: (calendarLongPressDetails) {
-          Provider.of<EventNotifier>(context)
+          Provider.of<EventNotifier>(context, listen: false)
               .setDate(calendarLongPressDetails.date!);
+          showModalBottomSheet(
+            context: context,
+            builder: (context) => const TasksWidget(),
+          );
         },
       ),
       floatingActionButton: FloatingActionButton(

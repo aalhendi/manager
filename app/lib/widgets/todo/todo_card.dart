@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:manager/controller/todo_notifier.dart';
 import 'package:manager/model/todo.dart';
+import 'package:manager/utils/show_delete_dialog.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
@@ -22,34 +23,6 @@ class TodoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    showDeleteDialog() {
-      showDialog(
-          context: context,
-          builder: (context) => SimpleDialog(
-                title: const Text("Confirm Delete"),
-                contentPadding: const EdgeInsets.all(20.0),
-                children: <Widget>[
-                  const Text("Are you sure you wish to delete this item?"),
-                  Row(children: [
-                    TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: const Text("Cancel")),
-                    TextButton(
-                        onPressed: () {
-                          context.read<TodoNotifier>().deleteTodo(index, id);
-                          Navigator.of(context).pop();
-                        },
-                        child: const Text(
-                          "Delete",
-                          style: TextStyle(color: Colors.red),
-                        )),
-                  ], mainAxisAlignment: MainAxisAlignment.center)
-                ],
-              ));
-    }
-
     return Slidable(
       // Specify a key if the Slidable is dismissible.
       key: ValueKey(id),
@@ -81,8 +54,9 @@ class TodoCard extends StatelessWidget {
             label: 'toggle',
           ),
           SlidableAction(
-            onPressed: (_) {
-              showDeleteDialog();
+            onPressed: (context) {
+              showDeleteDialog(
+                  context, context.read<TodoNotifier>().deleteTodo, index, id);
             },
             backgroundColor: const Color(0xFFFE4A49),
             foregroundColor: Colors.white,

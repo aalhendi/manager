@@ -34,4 +34,8 @@ class EventNotifier extends ChangeNotifier {
     await _eventService.updateEvent(newEvent);
     notifyListeners();
   }
+
+  getIndex(String id) {
+    return _eventList.indexWhere((e) => e.id == id);
+  }
 }
