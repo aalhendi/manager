@@ -26,6 +26,11 @@ class _EventEditingPageState extends State<EventEditingPage> {
     if (widget.event == null) {
       fromDate = DateTime.now();
       toDate = DateTime.now().add(const Duration(hours: 1));
+    } else {
+      final event = widget.event!;
+      titleController.text = event.title;
+      fromDate = event.from;
+      toDate = event.to;
     }
   }
 
@@ -42,8 +47,12 @@ class _EventEditingPageState extends State<EventEditingPage> {
       final isValid = _formKey.currentState!.validate();
       if (isValid) {
         // TODO: Add UI for description and checkbox for isAllDay
+
+        final isEditing = widget.event != null;
+        final provider = Provider.of<EventNotifier>(context, listen: false);
+
         final event = Event(
-            id: const Uuid().v4(),
+            id: isEditing ? widget.event!.id : const Uuid().v4(),
             title: titleController.text,
             description: "description",
             from: fromDate,
@@ -51,8 +60,11 @@ class _EventEditingPageState extends State<EventEditingPage> {
             isAllDay: false,
             createdAt: DateTime.now());
 
-        final provider = Provider.of<EventNotifier>(context, listen: false);
-        provider.addEvent(event);
+        if (isEditing) {
+          provider.updateEvent(event, provider.getIndex(event.id));
+        } else {
+          provider.addEvent(event);
+        }
 
         Navigator.of(context).pop();
       }

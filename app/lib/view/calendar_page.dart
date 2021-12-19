@@ -25,14 +25,15 @@ class _CalendarPageState extends State<CalendarPage> {
 
   @override
   Widget build(BuildContext context) {
+    DateTime now = DateTime.now();
     return Scaffold(
       body: SfCalendar(
         dataSource: EventDataSource(context.watch<EventNotifier>().eventList),
         view: CalendarView.month,
-        initialSelectedDate: DateTime.now(),
+        initialSelectedDate: now,
         onLongPress: (calendarLongPressDetails) {
-          Provider.of<EventNotifier>(context, listen: false)
-              .setDate(calendarLongPressDetails.date!);
+          Provider.of<EventNotifier>(context, listen: false).setDate(
+              calendarLongPressDetails.date!.add(Duration(hours: now.hour)));
           showModalBottomSheet(
             context: context,
             builder: (context) => const TasksWidget(),

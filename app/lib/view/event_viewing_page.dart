@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:manager/controller/event_notifier.dart';
 import 'package:manager/model/event.dart';
 import 'package:manager/utils/show_delete_dialog.dart';
+import 'package:manager/view/event_editing_page.dart';
 import 'package:provider/provider.dart';
 
 class EventViewingPage extends StatelessWidget {
@@ -12,7 +13,10 @@ class EventViewingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Widget> buildActions() => [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (context) => EventEditingPage(event: event)));
+            },
             icon: const Icon(Icons.edit),
           ),
           IconButton(
