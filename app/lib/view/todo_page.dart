@@ -14,15 +14,6 @@ class TodoPage extends StatefulWidget {
 }
 
 class _TodoPageState extends State<TodoPage> {
-  @override
-  void initState() {
-    super.initState();
-    SchedulerBinding.instance?.addPostFrameCallback((timeStamp) {
-      // Move this?
-      Provider.of<TodoNotifier>(context, listen: false).fetchTodos();
-    });
-  }
-
   void _toggleAddTodoModal(BuildContext context) {
     showModalBottomSheet(
         context: context,

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:manager/controller/event_notifier.dart';
 import 'package:manager/controller/todo_notifier.dart';
 import 'package:manager/utils/custom_search_delegate.dart';
 import 'package:manager/view/calendar_page.dart';
@@ -18,6 +20,14 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int selectedIndex = 0;
+  @override
+  void initState() {
+    super.initState();
+    SchedulerBinding.instance?.addPostFrameCallback((timeStamp) {
+      Provider.of<TodoNotifier>(context, listen: false).fetchTodos();
+      Provider.of<EventNotifier>(context, listen: false).fetchEvents();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
