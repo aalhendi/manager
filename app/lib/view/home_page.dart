@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:manager/utils/utils.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -9,12 +10,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  // DateTime _datetime = DateTime(2020);
   DateTime _date = DateTime.now();
-  DateFormat formatter = DateFormat('dd-MM-yyyy');
   @override
   Widget build(BuildContext context) {
-    String formattedDate = formatter.format(_date);
+    String formattedDate = Utils.toDate(_date);
     return Center(
       child: Column(
         children: [
