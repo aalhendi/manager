@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:manager/controller/event_notifier.dart';
 import 'package:manager/controller/todo_notifier.dart';
 import 'package:manager/view/home.dart';
 import 'package:provider/provider.dart';
@@ -6,7 +7,10 @@ import 'package:provider/provider.dart';
 // TODO: Add dark mode
 void main() {
   runApp(MultiProvider(
-    providers: [ChangeNotifierProvider(create: (_) => TodoNotifier())],
+    providers: [
+      ChangeNotifierProvider(create: (_) => TodoNotifier()),
+      ChangeNotifierProvider(create: (_) => EventNotifier())
+    ],
     child: const MyApp(),
   ));
 }

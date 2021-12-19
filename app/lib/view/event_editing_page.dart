@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:manager/controller/event_notifier.dart';
 import 'package:manager/model/event.dart';
 import 'package:manager/utils/utils.dart';
+import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
 class EventEditingPage extends StatefulWidget {
   final Event? event;
@@ -10,7 +13,6 @@ class EventEditingPage extends StatefulWidget {
   _EventEditingPageState createState() => _EventEditingPageState();
 }
 
-// TODO: Complete event editing page
 class _EventEditingPageState extends State<EventEditingPage> {
   final _formKey = GlobalKey<FormState>();
   final titleController = TextEditingController();
@@ -36,9 +38,29 @@ class _EventEditingPageState extends State<EventEditingPage> {
 
   @override
   Widget build(BuildContext context) {
+    Future saveForm() async {
+      final isValid = _formKey.currentState!.validate();
+      if (isValid) {
+        // TODO: Add UI for description and checkbox for isAllDay
+        final event = Event(
+            id: const Uuid().v4(),
+            title: titleController.text,
+            description: "description",
+            from: fromDate,
+            to: toDate,
+            isAllDay: false,
+            createdAt: DateTime.now());
+
+        final provider = Provider.of<EventNotifier>(context, listen: false);
+        provider.addEvent(event);
+
+        Navigator.of(context).pop();
+      }
+    }
+
     List<Widget> buildEditingActions() => [
           ElevatedButton.icon(
-            onPressed: () {},
+            onPressed: saveForm,
             icon: const Icon(Icons.done),
             label: const Text("SAVE"),
             style: ElevatedButton.styleFrom(
@@ -52,7 +74,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
           controller: titleController,
           validator: (title) =>
               title != null && title.isEmpty ? "Title cannot be empty" : null,
-          onFieldSubmitted: (_) {},
+          onFieldSubmitted: (_) => {},
         );
     Widget buildDropdownField(
             {required String text, required VoidCallback onClicked}) =>
@@ -172,6 +194,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
     Widget buildDateTimePickers() => Column(
           children: <Widget>[buildFrom(), buildTo()],
         );
+
     return Scaffold(
       appBar: AppBar(
         leading: const CloseButton(),

@@ -34,7 +34,7 @@ class Todo {
         id: map[TodoFields.id] as String,
         title: map[TodoFields.title] as String,
         isCompleted: map[TodoFields.isCompleted] == 1,
-        createdAt: DateTime.parse([TodoFields.createdAt] as String),
+        createdAt: DateTime.parse(map[TodoFields.createdAt] as String),
       );
 
   // Implement toString to make it easier to see information about
