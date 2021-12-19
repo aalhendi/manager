@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:manager/controller/todo_notifier.dart';
 import 'package:manager/widgets/todo/add_todo.dart';
 import 'package:manager/widgets/todo/completion_counter.dart';
