@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:manager/controller/todo_notifier.dart';
-import 'package:manager/model/todo_item.dart';
+import 'package:manager/model/todo.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
@@ -31,7 +31,7 @@ class _AddTodoState extends State<AddTodo> {
             ),
             ElevatedButton(
                 onPressed: () {
-                  context.read<TodoNotifier>().addTodo(TodoItem(
+                  context.read<TodoNotifier>().addTodo(Todo(
                       id: const Uuid().v4(),
                       title: _todoController.text,
                       isCompleted: false,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:manager/controller/todo_notifier.dart';
-import 'package:manager/model/todo_item.dart';
+import 'package:manager/model/todo.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
@@ -68,7 +68,7 @@ class TodoCard extends StatelessWidget {
           SlidableAction(
             onPressed: (_) {
               context.read<TodoNotifier>().updateTodo(
-                  TodoItem(
+                  Todo(
                       id: id,
                       title: title,
                       isCompleted: !isCompleted,

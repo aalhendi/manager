@@ -1,4 +1,4 @@
-import 'package:manager/model/todo_item.dart';
+import 'package:manager/model/todo.dart';
 import 'package:manager/repository/todo_repository.dart';
 
 class TodoService {
@@ -6,16 +6,16 @@ class TodoService {
 
   // TODO: Add checks to see if successful or not. Show dialogs or banners on fail
 
-  Future<List<TodoItem>> fetchTodos() {
+  Future<List<Todo>> fetchTodos() {
     // Do any bussiness logic here before returning
     return _todoRepository.fetchAllTodos();
   }
 
-  Future<void> addTodo(TodoItem todo) {
+  Future<void> addTodo(Todo todo) {
     return _todoRepository.addTodo(todo);
   }
 
-  Future<void> updateTodo(TodoItem newTodo) {
+  Future<void> updateTodo(Todo newTodo) {
     return _todoRepository.updateTodo(newTodo);
   }
 

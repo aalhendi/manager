@@ -1,4 +1,4 @@
-import 'package:manager/model/todo_item.dart';
+import 'package:manager/model/todo.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite/sqlite_api.dart';
@@ -30,20 +30,20 @@ class TodoApi {
 
     await db.execute('''
     CREATE TABLE $tableTodos (
-      ${TodoItemFields.id} $idType,
-      ${TodoItemFields.title} $textType,
-      ${TodoItemFields.isCompleted} $boolType,
-      ${TodoItemFields.createdAt} $textType
+      ${TodoFields.id} $idType,
+      ${TodoFields.title} $textType,
+      ${TodoFields.isCompleted} $boolType,
+      ${TodoFields.createdAt} $textType
     )
       ''');
   }
 
   // Define a function that inserts todos into the database
-  Future<void> insertTodo(TodoItem todo) async {
+  Future<void> insertTodo(Todo todo) async {
     // Get a reference to the database.
     final db = await instance.database;
 
-    // Insert the TodoItem into the correct table. You might also specify the
+    // Insert the Todo into the correct table. You might also specify the
     // `conflictAlgorithm` to use in case the same Todo is inserted twice.
     //
     // In this case, replace any previous data.
@@ -55,31 +55,31 @@ class TodoApi {
   }
 
   // A method that retrieves all the todos from the todos table.
-  Future<List<TodoItem>> todos() async {
+  Future<List<Todo>> todos() async {
     // Get a reference to the database.
     final db = await instance.database;
 
     // Query the table for all The Todos.
     final List<Map<String, dynamic>> maps = await db.query(tableTodos);
 
-    // Convert the List<Map<String, dynamic> into a List<TodoItem>.
+    // Convert the List<Map<String, dynamic> into a List<Todo>.
     return List.generate(maps.length, (i) {
-      return TodoItem.fromMap(maps[i]);
+      return Todo.fromMap(maps[i]);
     });
   }
 
-  Future<TodoItem> todo(String id) async {
+  Future<Todo> todo(String id) async {
     final db = await instance.database;
     final maps = await db
-        .query(tableTodos, where: '${TodoItemFields.id} = ?', whereArgs: [id]);
+        .query(tableTodos, where: '${TodoFields.id} = ?', whereArgs: [id]);
     if (maps.isNotEmpty) {
-      return TodoItem.fromMap(maps.first);
+      return Todo.fromMap(maps.first);
     } else {
       throw Exception("ID $id not found.");
     }
   }
 
-  Future<void> updateTodo(TodoItem todo) async {
+  Future<void> updateTodo(Todo todo) async {
     // Get a reference to the database.
     final db = await instance.database;
 
@@ -88,7 +88,7 @@ class TodoApi {
       tableTodos,
       todo.toMap(),
       // Ensure that the Todo has a matching id.
-      where: '${TodoItemFields.id} = ?',
+      where: '${TodoFields.id} = ?',
       // Pass the Todo's id as a whereArg to prevent SQL injection.
       whereArgs: [todo.id],
     );
@@ -102,7 +102,7 @@ class TodoApi {
     await db.delete(
       tableTodos,
       // Use a `where` clause to delete a specific Todo.
-      where: '${TodoItemFields.id} = ?',
+      where: '${TodoFields.id} = ?',
       // Pass the Todo's id as a whereArg to prevent SQL injection.
       whereArgs: [id],
     );

@@ -1,19 +1,19 @@
 const String tableTodos = 'todos';
 
-class TodoItemFields {
+class TodoFields {
   static const String id = '_id';
   static const String title = 'title';
   static const String isCompleted = 'isCompleted';
   static const String createdAt = 'createdAt';
 }
 
-class TodoItem {
+class Todo {
   String id;
   String title;
   bool isCompleted;
   DateTime createdAt;
 
-  TodoItem(
+  Todo(
       {required this.id,
       required this.title,
       required this.isCompleted,
@@ -23,24 +23,24 @@ class TodoItem {
   // columns in the database.
   Map<String, dynamic> toMap() {
     return {
-      TodoItemFields.id: id,
-      TodoItemFields.title: title,
-      TodoItemFields.isCompleted: isCompleted ? 1 : 0,
-      TodoItemFields.createdAt: createdAt.toIso8601String()
+      TodoFields.id: id,
+      TodoFields.title: title,
+      TodoFields.isCompleted: isCompleted ? 1 : 0,
+      TodoFields.createdAt: createdAt.toIso8601String()
     };
   }
 
-  static TodoItem fromMap(Map<String, Object?> map) => TodoItem(
-        id: map[TodoItemFields.id] as String,
-        title: map[TodoItemFields.title] as String,
-        isCompleted: map[TodoItemFields.isCompleted] == 1,
-        createdAt: DateTime.parse([TodoItemFields.createdAt] as String),
+  static Todo fromMap(Map<String, Object?> map) => Todo(
+        id: map[TodoFields.id] as String,
+        title: map[TodoFields.title] as String,
+        isCompleted: map[TodoFields.isCompleted] == 1,
+        createdAt: DateTime.parse([TodoFields.createdAt] as String),
       );
 
   // Implement toString to make it easier to see information about
   // each todo when using the print statement.
   @override
   String toString() {
-    return 'TodoItem{${TodoItemFields.id}: $id, ${TodoItemFields.title}: $title, ${TodoItemFields.isCompleted}: $isCompleted}';
+    return 'Todo{${TodoFields.id}: $id, ${TodoFields.title}: $title, ${TodoFields.isCompleted}: $isCompleted}';
   }
 }
