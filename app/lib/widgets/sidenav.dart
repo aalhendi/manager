@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:manager/controller/theme_notifier.dart';
 import 'package:manager/widgets/navigation_item.dart';
+import 'package:provider/provider.dart';
 
 class Sidenav extends StatelessWidget {
   final int selectedIndex;
@@ -59,10 +61,29 @@ class Sidenav extends StatelessWidget {
         );
       }
     }
+    final themeNotifier = Provider.of<ThemeNotifier>(context, listen: false);
 
     return Drawer(
-      child: ListView(
-        children: result,
+      child: Column(
+        children: [
+          Expanded(
+            child: ListView(
+              children: result,
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.light_mode),
+              Switch.adaptive(
+                  value: themeNotifier.isDarkMode,
+                  onChanged: (value) {
+                    themeNotifier.toggleTheme(value);
+                  }),
+              const Icon(Icons.dark_mode)
+            ],
+          )
+        ],
       ),
     );
   }
