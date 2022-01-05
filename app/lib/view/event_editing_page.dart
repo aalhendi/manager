@@ -86,6 +86,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
                 primary: Colors.transparent, shadowColor: Colors.transparent),
           ),
         ];
+
     Widget buildTitle() => TextFormField(
           style: const TextStyle(fontSize: 24),
           decoration: const InputDecoration(
@@ -95,6 +96,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
               title != null && title.isEmpty ? "Title cannot be empty" : null,
           onFieldSubmitted: (_) => {},
         );
+
     Widget buildDropdownField(
             {required String text, required VoidCallback onClicked}) =>
         ListTile(
@@ -102,6 +104,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
           trailing: const Icon(Icons.arrow_drop_down),
           onTap: onClicked,
         );
+
     Widget buildHeader({required String header, required Widget child}) =>
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -113,6 +116,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
             child
           ],
         );
+
     Future<DateTime?> pickDateTime(
       DateTime initialDate, {
       required bool pickDate,
@@ -190,6 +194,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
             ],
           ),
         );
+
     Widget buildTo() => buildHeader(
           header: "TO",
           child: Row(
@@ -210,9 +215,11 @@ class _EventEditingPageState extends State<EventEditingPage> {
             ],
           ),
         );
+
     Widget buildDateTimePickers() => Column(
           children: <Widget>[buildFrom(), buildTo()],
         );
+
     Widget buildIsAllDay() {
       final themeNotifier = Provider.of<ThemeNotifier>(context, listen: false);
       return Row(
