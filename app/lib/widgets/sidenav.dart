@@ -17,17 +17,19 @@ class Sidenav extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeNotifier = Provider.of<ThemeNotifier>(context, listen: false);
     List<Widget> result = [
       Padding(
         padding: const EdgeInsets.all(16.0),
         // TODO: Font selection?
         child: Text(
           "Manager",
-          style: TextStyle(fontSize: 21, color: Theme.of(context).primaryColor),
+          style: TextStyle(
+              fontSize: 21, color: Theme.of(context).colorScheme.secondary),
         ),
       ),
       Divider(
-        color: Colors.grey.shade400,
+        color: themeNotifier.themeData.colorScheme.secondaryVariant,
       ),
     ];
     for (var i = 0; i < pages.length; i++) {
@@ -39,7 +41,7 @@ class Sidenav extends StatelessWidget {
               "OTHER",
               style: TextStyle(
                   fontWeight: FontWeight.w600,
-                  color: Colors.grey.shade700,
+                  color: Theme.of(context).colorScheme.secondaryVariant,
                   letterSpacing: 1),
             ),
           ),
@@ -56,12 +58,11 @@ class Sidenav extends StatelessWidget {
       if (pages[i]['name'] == 'Home') {
         result.add(
           Divider(
-            color: Colors.grey.shade400,
+            color: themeNotifier.themeData.colorScheme.secondaryVariant,
           ),
         );
       }
     }
-    final themeNotifier = Provider.of<ThemeNotifier>(context, listen: false);
 
     return Drawer(
       child: Column(

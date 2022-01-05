@@ -24,7 +24,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Manager',
-      theme: ThemeNotifier.lightTheme,
       darkTheme: ThemeNotifier.darkTheme,
       themeMode: Provider.of<ThemeNotifier>(context).themeMode,
       home: const Home(),

@@ -48,7 +48,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Manager"),
-        backgroundColor: Colors.black87,
+        backgroundColor: Theme.of(context).colorScheme.primary,
         leading: Image.asset("images/logo.png"),
         actions: [
           IconButton(
@@ -56,8 +56,6 @@ class _HomeState extends State<Home> {
                     showSearch(
                         context: context, delegate: CustomSearchDelegate())
                   },
-              highlightColor: Colors.yellow,
-              splashColor: Colors.blue,
               icon: const Icon(Icons.search)),
         ],
       ),
