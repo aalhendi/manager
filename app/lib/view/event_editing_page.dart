@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:manager/controller/event_notifier.dart';
+import 'package:manager/controller/theme_notifier.dart';
 import 'package:manager/model/event.dart';
 import 'package:manager/utils/utils.dart';
 import 'package:provider/provider.dart';
@@ -16,8 +17,10 @@ class EventEditingPage extends StatefulWidget {
 class _EventEditingPageState extends State<EventEditingPage> {
   final _formKey = GlobalKey<FormState>();
   final titleController = TextEditingController();
+  final descriptionController = TextEditingController();
   late DateTime fromDate;
   late DateTime toDate;
+  late bool isAllDay;
 
   @override
   void initState() {
@@ -26,9 +29,12 @@ class _EventEditingPageState extends State<EventEditingPage> {
     if (widget.event == null) {
       fromDate = DateTime.now();
       toDate = DateTime.now().add(const Duration(hours: 1));
+      isAllDay = false;
     } else {
       final event = widget.event!;
       titleController.text = event.title;
+      descriptionController.text = event.description;
+      isAllDay = event.isAllDay;
       fromDate = event.from;
       toDate = event.to;
     }
@@ -37,6 +43,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
   @override
   void dispose() {
     titleController.dispose();
+    descriptionController.dispose();
 
     super.dispose();
   }
@@ -46,7 +53,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
     Future saveForm() async {
       final isValid = _formKey.currentState!.validate();
       if (isValid) {
-        // TODO: Add UI for description and checkbox for isAllDay
+        // TODO: Add UI for color
 
         final isEditing = widget.event != null;
         final provider = Provider.of<EventNotifier>(context, listen: false);
@@ -54,10 +61,10 @@ class _EventEditingPageState extends State<EventEditingPage> {
         final event = Event(
             id: isEditing ? widget.event!.id : const Uuid().v4(),
             title: titleController.text,
-            description: "description",
+            description: descriptionController.text,
             from: fromDate,
             to: toDate,
-            isAllDay: false,
+            isAllDay: isAllDay,
             createdAt: DateTime.now());
 
         if (isEditing) {
@@ -206,6 +213,53 @@ class _EventEditingPageState extends State<EventEditingPage> {
     Widget buildDateTimePickers() => Column(
           children: <Widget>[buildFrom(), buildTo()],
         );
+    Widget buildIsAllDay() {
+      final themeNotifier = Provider.of<ThemeNotifier>(context, listen: false);
+      return Row(
+        children: [
+          Row(
+            children: [
+              Icon(
+                Icons.watch_later,
+                color: Theme.of(context).colorScheme.secondary,
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+                child: Text(
+                  "All-Day?",
+                  style: TextStyle(
+                      fontSize: 16,
+                      color: themeNotifier.themeData.colorScheme.onPrimary),
+                ),
+              ),
+            ],
+          ),
+          Switch.adaptive(
+              value: isAllDay,
+              onChanged: (value) {
+                setState(() {
+                  isAllDay = value;
+                });
+              })
+        ],
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      );
+    }
+
+    Widget buildDescription() => TextFormField(
+          style: const TextStyle(fontSize: 16),
+          decoration: const InputDecoration(
+              border: OutlineInputBorder(), hintText: 'Add a description'),
+          controller: descriptionController,
+          validator: (description) =>
+              description != null && description.length > 250
+                  ? "Description cannot be longer than 250 characters"
+                  : null,
+          onFieldSubmitted: (_) => {},
+          maxLines: 6,
+          keyboardType: TextInputType.multiline,
+        );
 
     return Scaffold(
       appBar: AppBar(
@@ -224,6 +278,11 @@ class _EventEditingPageState extends State<EventEditingPage> {
                 height: 12,
               ),
               buildDateTimePickers(),
+              buildIsAllDay(),
+              const SizedBox(
+                height: 12,
+              ),
+              buildDescription()
             ],
           ),
         ),
