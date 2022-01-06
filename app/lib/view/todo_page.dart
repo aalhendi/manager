@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:manager/controller/todo_notifier.dart';
 import 'package:manager/widgets/todo/add_todo.dart';
-import 'package:manager/widgets/todo/completion_counter.dart';
 import 'package:manager/widgets/todo/todo_list.dart';
-import 'package:provider/provider.dart';
 
 class TodoPage extends StatefulWidget {
   const TodoPage({Key? key}) : super(key: key);
@@ -28,13 +25,7 @@ class _TodoPageState extends State<TodoPage> {
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              CompletionCounter(
-                completedCount: context.read<TodoNotifier>().countCompleted(),
-                totalCount: context.watch<TodoNotifier>().todoList.length,
-              ),
-              const TodoList()
-            ],
+            children: const <Widget>[TodoList()],
           ),
         ),
       ),
