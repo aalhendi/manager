@@ -21,12 +21,9 @@ class _TodoPageState extends State<TodoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
+      body: const SingleChildScrollView(
         child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const <Widget>[TodoList()],
-          ),
+          child: TodoList(),
         ),
       ),
       floatingActionButton: FloatingActionButton(

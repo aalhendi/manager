@@ -9,7 +9,7 @@ class TodoList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 500,
+      height: 600,
       child: ListView.builder(
         itemBuilder: (ctx, idx) {
           return TodoCard(
