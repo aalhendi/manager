@@ -46,6 +46,7 @@ class TodoApi {
       ${EventFields.isAllDay} $boolType,
       ${EventFields.from} $textType,
       ${EventFields.to} $textType,
+      ${EventFields.backgroundColor} $textType,
       ${EventFields.createdAt} $textType
     )
       ''');

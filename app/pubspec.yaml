@@ -40,6 +40,7 @@ dependencies:
   path:
   flutter_slidable: ^1.1.0
   syncfusion_flutter_calendar: ^19.3.59
+  flutter_colorpicker: ^1.0.3
 
 dev_dependencies:
   flutter_test:

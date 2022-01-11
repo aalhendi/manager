@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:manager/controller/event_notifier.dart';
 import 'package:manager/controller/theme_notifier.dart';
 import 'package:manager/model/event.dart';
@@ -21,6 +22,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
   late DateTime fromDate;
   late DateTime toDate;
   late bool isAllDay;
+  late Color backgroundColor;
 
   @override
   void initState() {
@@ -30,6 +32,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
       fromDate = DateTime.now();
       toDate = DateTime.now().add(const Duration(hours: 1));
       isAllDay = false;
+      backgroundColor = Colors.lightGreen;
     } else {
       final event = widget.event!;
       titleController.text = event.title;
@@ -37,6 +40,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
       isAllDay = event.isAllDay;
       fromDate = event.from;
       toDate = event.to;
+      backgroundColor = event.backgroundColor;
     }
   }
 
@@ -53,8 +57,6 @@ class _EventEditingPageState extends State<EventEditingPage> {
     Future saveForm() async {
       final isValid = _formKey.currentState!.validate();
       if (isValid) {
-        // TODO: Add UI for color
-
         final isEditing = widget.event != null;
         final provider = Provider.of<EventNotifier>(context, listen: false);
 
@@ -64,6 +66,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
             description: descriptionController.text,
             from: fromDate,
             to: toDate,
+            backgroundColor: backgroundColor,
             isAllDay: isAllDay,
             createdAt: DateTime.now());
 
@@ -268,6 +271,54 @@ class _EventEditingPageState extends State<EventEditingPage> {
           keyboardType: TextInputType.multiline,
         );
 
+    Widget buildColorPicker(Color color) {
+      final themeNotifier = Provider.of<ThemeNotifier>(context, listen: false);
+      return GestureDetector(
+        onTap: () {
+          showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                    title: const Text("Pick Your Color"),
+                    content: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        ColorPicker(
+                            labelTypes: const [],
+                            pickerColor: color,
+                            onColorChanged: (value) => setState(() {
+                                  backgroundColor = value;
+                                })),
+                        TextButton(
+                          child: const Text("SELECT"),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    ),
+                  ));
+        },
+        child: Row(
+          children: [
+            Container(
+              height: 25,
+              width: 25,
+              decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+              child: Text(
+                "Event Color",
+                style: TextStyle(
+                    fontSize: 16,
+                    color: themeNotifier.themeData.colorScheme.onPrimary),
+              ),
+            )
+          ],
+        ),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         leading: const CloseButton(),
@@ -286,6 +337,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
               ),
               buildDateTimePickers(),
               buildIsAllDay(),
+              buildColorPicker(backgroundColor),
               const SizedBox(
                 height: 12,
               ),

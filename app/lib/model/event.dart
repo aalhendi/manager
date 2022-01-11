@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:manager/utils/hex_color.dart';
 
 const String tableEvents = 'events';
 
@@ -9,6 +10,7 @@ class EventFields {
   static const String isAllDay = 'isAllDay';
   static const String from = 'fromDate';
   static const String to = 'toDate';
+  static const String backgroundColor = 'backgroundColor';
   static const String createdAt = 'createdAt';
 }
 
@@ -28,7 +30,7 @@ class Event {
       required this.description,
       required this.from,
       required this.to,
-      this.backgroundColor = Colors.lightGreen,
+      required this.backgroundColor,
       this.isAllDay = false,
       required this.createdAt});
 
@@ -39,6 +41,8 @@ class Event {
       EventFields.description: description,
       EventFields.isAllDay: isAllDay ? 1 : 0,
       EventFields.from: from.toIso8601String(),
+      EventFields.backgroundColor:
+          backgroundColor.toHex(leadingHashSign: false),
       EventFields.to: to.toIso8601String(),
       EventFields.createdAt: createdAt.toIso8601String()
     };
@@ -51,6 +55,8 @@ class Event {
         isAllDay: map[EventFields.isAllDay] == 1,
         from: DateTime.parse(map[EventFields.from] as String),
         to: DateTime.parse(map[EventFields.to] as String),
+        backgroundColor:
+            HexColor.fromHex(map[EventFields.backgroundColor] as String),
         createdAt: DateTime.parse(map[EventFields.createdAt] as String),
       );
 
