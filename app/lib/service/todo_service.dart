@@ -1,25 +1,25 @@
 import 'package:manager/model/todo.dart';
-import 'package:manager/repository/todo_repository.dart';
+import 'package:manager/api/todo_API.dart';
 
 class TodoService {
-  final TodoRepository _todoRepository = TodoRepository();
+  final TodoAPI _todoAPI = TodoAPI();
 
   // TODO: Add checks to see if successful or not. Show dialogs or banners on fail
 
   Future<List<Todo>> fetchTodos() {
     // Do any bussiness logic here before returning
-    return _todoRepository.fetchAllTodos();
+    return _todoAPI.fetchAllTodos();
   }
 
   Future<void> addTodo(Todo todo) {
-    return _todoRepository.addTodo(todo);
+    return _todoAPI.addTodo(todo);
   }
 
   Future<void> updateTodo(Todo newTodo) {
-    return _todoRepository.updateTodo(newTodo);
+    return _todoAPI.updateTodo(newTodo);
   }
 
   Future<void> deleteTodo(String id) {
-    return _todoRepository.deleteTodo(id);
+    return _todoAPI.deleteTodo(id);
   }
 }

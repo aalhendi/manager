@@ -1,23 +1,23 @@
 import 'package:manager/model/event.dart';
-import 'package:manager/repository/event_repository.dart';
+import 'package:manager/api/event_API.dart';
 
 class EventService {
-  final EventRepository _eventRepository = EventRepository();
+  final EventAPI _eventAPI = EventAPI();
 
   Future<List<Event>> fetchEvents() {
     // Do any bussiness logic here before returning
-    return _eventRepository.fetchAllEvents();
+    return _eventAPI.fetchAllEvents();
   }
 
   Future<void> addEvent(Event event) {
-    return _eventRepository.addEvent(event);
+    return _eventAPI.addEvent(event);
   }
 
   Future<void> updateEvent(Event newEvent) {
-    return _eventRepository.updateEvent(newEvent);
+    return _eventAPI.updateEvent(newEvent);
   }
 
   Future<void> deleteEvent(String id) {
-    return _eventRepository.deleteEvent(id);
+    return _eventAPI.deleteEvent(id);
   }
 }

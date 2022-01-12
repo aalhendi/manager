@@ -1,62 +1,23 @@
-import 'package:manager/model/event.dart';
+import 'package:manager/api/api.dart';
 import 'package:manager/model/todo.dart';
-import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:sqflite/sqlite_api.dart';
 
-class TodoApi {
-  static final TodoApi instance = TodoApi._init();
-
-  TodoApi._init();
-
-  static Database? _database;
-  Future<Database> get database async {
-    if (_database != null) {
-      return _database!;
-    }
-    _database = await _initDB('database.db');
-    return _database!;
-  }
-
-  Future<Database> _initDB(String filePath) async {
-    final dbPath = await getDatabasesPath();
-    final path = join(dbPath, filePath);
-    return await openDatabase(path, version: 1, onCreate: _createDB);
-  }
-
-  Future _createDB(Database db, int version) async {
-    const idType = 'TEXT PRIMARY KEY';
-    const boolType = 'BOOLEAN NOT NULL';
-    const textType = 'TEXT NOT NULL';
-
-// TODO: abstract the init in another file
-    await db.execute('''
-    CREATE TABLE $tableTodos (
-      ${TodoFields.id} $idType,
-      ${TodoFields.title} $textType,
-      ${TodoFields.isCompleted} $boolType,
-      ${TodoFields.createdAt} $textType
-    )
-      ''');
-    await db.execute('''
-    CREATE TABLE $tableEvents (
-      ${EventFields.id} $idType,
-      ${EventFields.title} $textType,
-      ${EventFields.description} TEXT,
-      ${EventFields.isAllDay} $boolType,
-      ${EventFields.from} $textType,
-      ${EventFields.to} $textType,
-      ${EventFields.backgroundColor} $textType,
-      ${EventFields.createdAt} $textType
-    )
-      ''');
-  }
-
-  // Define a function that inserts todos into the database
-  Future<void> insertTodo(Todo todo) async {
+class TodoAPI {
+  Future<List<Todo>> fetchAllTodos() async {
     // Get a reference to the database.
-    final db = await instance.database;
+    final db = await API().database;
 
+    // Query the table for all The Todos.
+    final List<Map<String, dynamic>> maps = await db.query(tableTodos);
+
+    // Convert the List<Map<String, dynamic> into a List<Todo>.
+    return List.generate(maps.length, (i) {
+      return Todo.fromMap(maps[i]);
+    });
+  }
+
+  Future<void> addTodo(Todo todo) async {
+    final db = await API().database;
     // Insert the Todo into the correct table. You might also specify the
     // `conflictAlgorithm` to use in case the same Todo is inserted twice.
     //
@@ -68,49 +29,21 @@ class TodoApi {
     );
   }
 
-  // A method that retrieves all the todos from the todos table.
-  Future<List<Todo>> todos() async {
-    // Get a reference to the database.
-    final db = await instance.database;
-
-    // Query the table for all The Todos.
-    final List<Map<String, dynamic>> maps = await db.query(tableTodos);
-
-    // Convert the List<Map<String, dynamic> into a List<Todo>.
-    return List.generate(maps.length, (i) {
-      return Todo.fromMap(maps[i]);
-    });
-  }
-
-  Future<Todo> todo(String id) async {
-    final db = await instance.database;
-    final maps = await db
-        .query(tableTodos, where: '${TodoFields.id} = ?', whereArgs: [id]);
-    if (maps.isNotEmpty) {
-      return Todo.fromMap(maps.first);
-    } else {
-      throw Exception("ID $id not found.");
-    }
-  }
-
-  Future<void> updateTodo(Todo todo) async {
-    // Get a reference to the database.
-    final db = await instance.database;
+  Future<void> updateTodo(Todo newTodo) async {
+    final db = await API().database;
 
     // Update the given Todo.
     await db.update(
       tableTodos,
-      todo.toMap(),
-      // Ensure that the Todo has a matching id.
+      newTodo.toMap(),
       where: '${TodoFields.id} = ?',
-      // Pass the Todo's id as a whereArg to prevent SQL injection.
-      whereArgs: [todo.id],
+      whereArgs: [newTodo.id],
     );
   }
 
   Future<void> deleteTodo(String id) async {
     // Get a reference to the database.
-    final db = await instance.database;
+    final db = await API().database;
 
     // Remove the Todo from the database.
     await db.delete(
@@ -120,10 +53,5 @@ class TodoApi {
       // Pass the Todo's id as a whereArg to prevent SQL injection.
       whereArgs: [id],
     );
-  }
-
-  Future close() async {
-    final db = await instance.database;
-    db.close();
   }
 }
