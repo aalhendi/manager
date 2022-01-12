@@ -282,8 +282,18 @@ class _EventEditingPageState extends State<EventEditingPage> {
                     content: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        ColorPicker(
-                            labelTypes: const [],
+                        BlockPicker(
+                            availableColors: [
+                              Colors.red.shade600,
+                              Colors.orange.shade400,
+                              Colors.yellow.shade300,
+                              Colors.green.shade300,
+                              Colors.green.shade900,
+                              Colors.blue.shade300,
+                              Colors.indigo.shade300,
+                              Colors.pink.shade100,
+                              Colors.grey.shade400,
+                            ],
                             pickerColor: color,
                             onColorChanged: (value) => setState(() {
                                   backgroundColor = value;
