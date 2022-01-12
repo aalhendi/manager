@@ -1,5 +1,5 @@
 import 'package:manager/model/event.dart';
-import 'package:manager/api/event_API.dart';
+import 'package:manager/api/event_api.dart';
 
 class EventService {
   final EventAPI _eventAPI = EventAPI();

@@ -1,10 +1,12 @@
-import 'package:manager/api/api.dart';
+import 'package:manager/api/db_helper.dart';
 import 'package:manager/model/event.dart';
 import 'package:sqflite/sqflite.dart';
 
 class EventAPI {
+  static final DBHelper instance = DBHelper();
+
   Future<List<Event>> fetchAllEvents() async {
-    final db = await API().database;
+    final db = await instance.database;
     final List<Map<String, dynamic>> maps = await db.query(tableEvents);
 
     return List.generate(maps.length, (i) {
@@ -13,7 +15,7 @@ class EventAPI {
   }
 
   Future<Event> fetchEvent(String id) async {
-    final db = await API().database;
+    final db = await instance.database;
     final maps = await db
         .query(tableEvents, where: '${EventFields.id} = ?', whereArgs: [id]);
     if (maps.isNotEmpty) {
@@ -24,7 +26,7 @@ class EventAPI {
   }
 
   Future<void> addEvent(Event event) async {
-    final db = await API().database;
+    final db = await instance.database;
 
     await db.insert(
       tableEvents,
@@ -34,7 +36,7 @@ class EventAPI {
   }
 
   Future<void> updateEvent(Event newEvent) async {
-    final db = await API().database;
+    final db = await instance.database;
 
     await db.update(
       tableEvents,
@@ -45,7 +47,7 @@ class EventAPI {
   }
 
   Future<void> deleteEvent(String id) async {
-    final db = await API().database;
+    final db = await instance.database;
 
     await db.delete(
       tableEvents,

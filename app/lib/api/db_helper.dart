@@ -3,13 +3,13 @@ import 'package:manager/model/todo.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-class API {
-  static final API instance = API._init();
+class DBHelper {
+  static final DBHelper instance = DBHelper._init();
   static Database? _database;
 
-  API._init();
+  DBHelper._init();
 
-  factory API() {
+  factory DBHelper() {
     return instance;
   }
 
