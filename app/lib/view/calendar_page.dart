@@ -78,6 +78,8 @@ class _CalendarPageState extends State<CalendarPage> {
           controller: _controller,
           firstDayOfWeek: 7,
           allowedViews: _calendarViews,
+          timeSlotViewSettings: const TimeSlotViewSettings(
+              nonWorkingDays: <int>[DateTime.saturday, DateTime.friday]),
           onTap: calendarTapped,
         );
 
