@@ -86,6 +86,7 @@ class _TodoPageState extends State<TodoPage> {
       ];
     }
 
+    //TODO: Better card design
     Widget buildTodoCard({
       required Todo todo,
       required int index,

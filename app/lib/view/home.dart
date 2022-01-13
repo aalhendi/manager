@@ -49,7 +49,12 @@ class _HomeState extends State<Home> {
       appBar: AppBar(
         title: const Text("Manager"),
         backgroundColor: Theme.of(context).colorScheme.primary,
-        leading: Image.asset("images/logo.png"),
+        // leading: Image.asset("images/logo.png"),
+        //TODO: App logo
+        leading: const Icon(
+          Icons.menu_book,
+          size: 32,
+        ),
         actions: [
           IconButton(
               onPressed: () => {
